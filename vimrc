@@ -1,9 +1,7 @@
 " plugin manager
 call plug#begin()
 
-Plug 'arzg/vim-colors-xcode'
 Plug 'preservim/nerdtree'
-Plug 'fisadev/FixedTaskList.vim'
 
 call plug#end()
 
