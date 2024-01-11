@@ -29,6 +29,22 @@ then
 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
+# check if fonts folder exists
+if [ ! -d ~/.local/share/fonts ]
+then
+  mkdir -p ~/.local/share/fonts
+fi
+
+# installing fonts
+if [ ! -f ~/.local/share/fonts/MononokiNerdFontMono-Regular.ttf ] 
+then
+  cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Mononoki.tar.xz
+  tar xf Mononoki.tar.xz 
+  rm -rf Mononoki.tar.xz
+  rm -rf LICENCE.txt
+  rm -rf README.md
+fi
+
 # install plugins
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
 
