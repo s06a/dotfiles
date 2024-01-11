@@ -13,7 +13,7 @@ fi
 # copy the monokai theme
 if [ ! -f ~/.vim/colors/monokai.vim ]
 then
-  git clone git@github.com:ku1ik/vim-monokai.git
+  git clone https://github.com/ku1ik/vim-monokai.git 
   cp vim-monokai/colors/monokai.vim ~/.vim/colors/
   rm -rf vim-monokai
 fi
@@ -29,26 +29,12 @@ then
 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-# check if fonts folder exists
 if [ ! -d ~/.local/share/fonts ]
 then
-  mkdir -p ~/.local/share/fonts
+  git clone https://github.com/powerline/fonts.git --depth=1
+  fonts/install.sh
+  rm -rf fonts
 fi
-
-git clone https://github.com/powerline/fonts.git --depth=1
-fonts/install.sh
-rm -rf fonts
-
-# installing fonts
-#if [ -f ~/.local/share/fonts/MononokiNerdFontMono-Regular.ttf ] 
-#then
-#  cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz 
-#  tar xf JetBrainsMono.tar.xz 
-#  rm -rf JetBrainsMono.tar.xz
-#  rm -rf LICENCE.txt
-#  rm -rf LICENCE
-#  rm -rf README.md
-#fi
 
 # install plugins
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
