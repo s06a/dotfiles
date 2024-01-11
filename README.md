@@ -17,3 +17,8 @@ chmod u+x setup.sh
 ```
 :PlugInstall
 ```
+
+##### shortcuts
+```
+F1: NERDTree
+```
