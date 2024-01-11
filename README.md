@@ -12,7 +12,7 @@ chmod u+x setup.sh
 ```
 
 ### Vim
-![image](https://github.com/s06a/personal-configs/assets/91134347/de19cca1-febd-47d2-8645-1910b9ba8b01)
+![image](https://github.com/s06a/personal-configs/assets/91134347/c7e931a9-c7e3-448a-a095-e39adbec839a)
 ##### Install plugins (first time only)
 ```
 :PlugInstall
