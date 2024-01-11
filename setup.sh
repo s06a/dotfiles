@@ -35,15 +35,20 @@ then
   mkdir -p ~/.local/share/fonts
 fi
 
+git clone https://github.com/powerline/fonts.git --depth=1
+fonts/install.sh
+rm -rf fonts
+
 # installing fonts
-if [ ! -f ~/.local/share/fonts/MononokiNerdFontMono-Regular.ttf ] 
-then
-  cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Mononoki.tar.xz
-  tar xf Mononoki.tar.xz 
-  rm -rf Mononoki.tar.xz
-  rm -rf LICENCE.txt
-  rm -rf README.md
-fi
+#if [ -f ~/.local/share/fonts/MononokiNerdFontMono-Regular.ttf ] 
+#then
+#  cd ~/.local/share/fonts && curl -fLO https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.tar.xz 
+#  tar xf JetBrainsMono.tar.xz 
+#  rm -rf JetBrainsMono.tar.xz
+#  rm -rf LICENCE.txt
+#  rm -rf LICENCE
+#  rm -rf README.md
+#fi
 
 # install plugins
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
