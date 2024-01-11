@@ -21,4 +21,5 @@ chmod u+x setup.sh
 ##### shortcuts
 ```
 F1: NERDTree
+F2: TaskList # keys are TODO, FIXME
 ```
