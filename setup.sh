@@ -29,6 +29,9 @@ then
 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
+# install plugins
+vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
+
 # Tmux
 
 # TODO: tmux configs
