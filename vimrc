@@ -2,6 +2,7 @@
 call plug#begin()
 
 Plug 'preservim/nerdtree'
+Plug 'fisadev/FixedTaskList.vim'
 
 call plug#end()
 
@@ -20,3 +21,4 @@ set hlsearch
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
+nmap <F2> :TaskList<CR>

@@ -2,6 +2,8 @@
 
 # VIM 
 
+# TODO: persian-vim palette
+
 # check if ~/.vim/colors exists
 if [ ! -d ~/.vim/colors ]
 then
@@ -26,3 +28,7 @@ then
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
+
+# Tmux
+
+# TODO: tmux configs
