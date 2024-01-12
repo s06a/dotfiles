@@ -28,6 +28,12 @@ set showcmd
 set showmatch
 set incsearch
 set hlsearch
+set ignorecase
+set showcmd
+set ruler
+set wrap
+set showmatch
+set wildmenu
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
@@ -41,6 +47,8 @@ let g:airline_powerline_fonts = 0
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
+
+let g:NERDTreeShowHidden=1
 
 let g:airline_left_sep = '⮀'
 let g:airline_left_alt_sep = '⮁'
@@ -73,4 +81,5 @@ augroup autoformat_settings
 augroup END
 
 " set encoding
-set encoding=UTF-8
+"set encoding=UTF-8
+set encoding=utf8

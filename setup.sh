@@ -41,4 +41,4 @@ vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
 
 # Tmux
 
-# TODO: tmux configs
+cp tmux.conf ~/.tmux.conf
