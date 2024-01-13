@@ -29,16 +29,20 @@ then
 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-if [ ! -d ~/.local/share/fonts ]
-then
-  git clone https://github.com/powerline/fonts.git --depth=1
-  fonts/install.sh
-  rm -rf fonts
-fi
+# install powerline fonts
+# apt install fonts-powerline
 
-# install plugins
+# install pluginsll 
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
 
 # Tmux
 
+# install tmux plugin manager
+if [ ! -d ~/.tmux/plugins/tpm ] 
+then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 cp tmux.conf ~/.tmux.conf
+
+rm -rf ~/.config/tmux/tmux.conf

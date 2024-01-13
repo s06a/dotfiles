@@ -1,3 +1,8 @@
+" set encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set termencoding=utf-8
+
 " plugin manager
 call plug#begin()
 
@@ -79,7 +84,3 @@ augroup autoformat_settings
   autocmd FileType vue AutoFormatBuffer prettier
   autocmd FileType swift AutoFormatBuffer swift-format
 augroup END
-
-" set encoding
-"set encoding=UTF-8
-set encoding=utf8
