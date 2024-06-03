@@ -17,6 +17,7 @@ Plug 'google/vim-glaive'
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/vim-indent-guides'
 Plug 'ryanoasis/vim-devicons'
+Plug 'godlygeek/tabular' " :Tabularize /<separator>
 
 call plug#end()
 
@@ -26,25 +27,25 @@ colorscheme monokai
 set background=dark
 
 " vim configs
-set number " enable numbers
-set mouse=a " enable mouse
-set ls=2 " set line spacing for readability
-set showcmd " show latest executed command
-set showmatch " highligh matching pairs (such as brackets)
-set incsearch " search as you type
-set hlsearch " highlight all occurances
-set ignorecase " make searches case-insensitive
-set ruler " show cursor position at the bottom right
-set wrap " wrap long lines
-set wildmenu " enhance the command-line completion menu
-set tabstop=4 " number of spaces for a tab
-set binary " no new lines at the of the file
+set number             " enable numbers
+set mouse=a            " enable mouse
+set ls=2               " set line spacing for readability
+set showcmd            " show latest executed command
+set showmatch          " highligh matching pairs (such as brackets)
+set incsearch          " search as you type
+set hlsearch           " highlight all occurances
+set ignorecase         " make searches case-insensitive
+set ruler              " show cursor position at the bottom right
+set wrap               " wrap long lines
+set wildmenu           " enhance the command-line completion menu
+set tabstop=4          " number of spaces for a tab
+set binary             " no new lines at the of the file
 set noeol
-set laststatus=2 " show status line
-set showmode " show the current mode
-set textwidth=80 " limit text width
+set laststatus=2       " show status line
+set showmode           " show the current mode
+set textwidth=80       " limit text width
 set formatoptions=qrn1 " handle text formatting
-set autoindent " better indentations
+set autoindent         " better indentations
 set smartindent
 set complete-=i
 set smarttab
