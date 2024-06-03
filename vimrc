@@ -26,20 +26,37 @@ colorscheme monokai
 set background=dark
 
 " vim configs
+" enable numbers
 set number
+" enable mouse
 set mouse=a
+" set line spacing for readability
 set ls=2
+" show latest executed command
 set showcmd
+" highligh matching pairs (such as brackets)
 set showmatch
+" search as you type
 set incsearch
+" highlight all occurances
 set hlsearch
+" make searches case-insensitive
 set ignorecase
-set showcmd
+" show cursor position at the bottom right
 set ruler
+" wrap long lines
 set wrap
-set showmatch
+" enhance the command-line completion menu
 set wildmenu
+" number of spaces for a tab
 set tabstop=4
+" no new lines at the of the file
+set binary
+set noeol
+" show status line
+set laststatus=2
+" show the current mode
+set showmode
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
