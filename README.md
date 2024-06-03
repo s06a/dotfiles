@@ -1,7 +1,7 @@
 # Personal Configs
 
 - Vim
-- Tmux (not yet)
+- Tmux
 
 ## How to use?
 ```bash
