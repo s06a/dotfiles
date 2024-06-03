@@ -26,37 +26,32 @@ colorscheme monokai
 set background=dark
 
 " vim configs
-" enable numbers
-set number
-" enable mouse
-set mouse=a
-" set line spacing for readability
-set ls=2
-" show latest executed command
-set showcmd
-" highligh matching pairs (such as brackets)
-set showmatch
-" search as you type
-set incsearch
-" highlight all occurances
-set hlsearch
-" make searches case-insensitive
-set ignorecase
-" show cursor position at the bottom right
-set ruler
-" wrap long lines
-set wrap
-" enhance the command-line completion menu
-set wildmenu
-" number of spaces for a tab
-set tabstop=4
-" no new lines at the of the file
-set binary
+set number " enable numbers
+set mouse=a " enable mouse
+set ls=2 " set line spacing for readability
+set showcmd " show latest executed command
+set showmatch " highligh matching pairs (such as brackets)
+set incsearch " search as you type
+set hlsearch " highlight all occurances
+set ignorecase " make searches case-insensitive
+set ruler " show cursor position at the bottom right
+set wrap " wrap long lines
+set wildmenu " enhance the command-line completion menu
+set tabstop=4 " number of spaces for a tab
+set binary " no new lines at the of the file
 set noeol
-" show status line
-set laststatus=2
-" show the current mode
-set showmode
+set laststatus=2 " show status line
+set showmode " show the current mode
+set textwidth=80 " limit text width
+set formatoptions=qrn1 " handle text formatting
+set autoindent " better indentations
+set smartindent
+set complete-=i
+set smarttab
+
+" enable autocompletion (use ctrl+n to see options in vim)
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
@@ -102,3 +97,6 @@ augroup autoformat_settings
   autocmd FileType vue AutoFormatBuffer prettier
   autocmd FileType swift AutoFormatBuffer swift-format
 augroup END
+
+" TODO
+" youcompleteme
