@@ -39,6 +39,7 @@ set ruler
 set wrap
 set showmatch
 set wildmenu
+set tabstop=2
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
@@ -46,7 +47,7 @@ nmap <F2> :TaskList<CR>
 
 " global configs
 let g:airline_theme = 'minimalist'
-let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_enable_on_vim_startup = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_powerline_fonts = 0
 if !exists('g:airline_symbols')
