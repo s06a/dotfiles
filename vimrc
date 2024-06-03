@@ -39,7 +39,7 @@ set ruler
 set wrap
 set showmatch
 set wildmenu
-set tabstop=2
+set tabstop=4
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
