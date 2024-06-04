@@ -42,7 +42,6 @@ set tabstop=4          " number of spaces for a tab
 set binary             " no new lines at the of the file
 set noeol
 set laststatus=2       " show status line
-set showmode           " show the current mode
 set textwidth=80       " limit text width
 set formatoptions=qrn1 " handle text formatting
 set autoindent         " better indentations
