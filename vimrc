@@ -18,12 +18,15 @@ Plug 'Raimondi/delimitMate'
 Plug 'preservim/vim-indent-guides'
 Plug 'ryanoasis/vim-devicons'
 Plug 'godlygeek/tabular' " :Tabularize /<separator>
+Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
 
 " configs for the theme
 syntax enable
-colorscheme monokai
+set t_Co=256
+set t_ut=
+colorscheme codedark " monokai
 set background=dark
 
 " vim configs
