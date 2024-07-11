@@ -30,7 +30,7 @@ colorscheme codedark " monokai
 set background=dark
 
 " vim configs
-set number             " enable numbers
+" set number             " enable numbers
 set mouse=a            " enable mouse
 set ls=2               " set line spacing for readability
 set showcmd            " show latest executed command
