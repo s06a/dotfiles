@@ -4,10 +4,17 @@
 
 # TODO: persian-vim palette
 
+# download a Nerd font
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip
+unzip Hack.zip -d Hack
+mkdir -p ~/.local/share/fonts
+mv Hack/*.ttf ~/.local/share/fonts/
+fc-cache -fv > 2&1> /dev/null # update font cache
+
 # check if ~/.vim/colors exists
 if [ ! -d ~/.vim/colors ]
 then
-  mkdir ~/.vim/colors
+  mkdir -p ~/.vim/colors
 fi
 
 # copy the monokai theme
@@ -21,6 +28,8 @@ fi
 # copy the vimrc
 cp ~/.vimrc ~/.vimrc.bk # make a backup first
 cp vimrc ~/.vimrc
+
+# install curl if you need
 
 # check if vim-plug exists
 if [ ! -f ~/.vim/autoload/plug.vim ] 
@@ -47,3 +56,5 @@ fi
 cp tmux.conf ~/.tmux.conf
 
 rm -rf ~/.config/tmux/tmux.conf
+
+echo "close and reopen terminal to see the changes"
