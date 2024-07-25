@@ -29,8 +29,9 @@ then
 	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-# install powerline fonts
+# run by sudo if you need, install powerline fonts
 # apt install fonts-powerline
+# apt install python3-powerline
 
 # install pluginsll 
 vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
