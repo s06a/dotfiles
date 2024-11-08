@@ -19,7 +19,6 @@ chmod u+x setup.sh
 F1: NERDTree
   - use "t" to open files in a new tab from NERDTree
   - close opened tabs using :tabc
-F2: TaskList # keys like TODO and FIXME
 ```
 
 ## Tmux

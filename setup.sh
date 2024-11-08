@@ -1,60 +1,59 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-# VIM 
+# Setup script for Vim and Tmux environment
 
-# TODO: persian-vim palette
+# Variables
+NERD_FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"
+NERD_FONT_DIR="$HOME/.local/share/fonts"
+MONOKAI_REPO="https://github.com/ku1ik/vim-monokai.git"
+PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+TMUX_PLUGIN_REPO="https://github.com/tmux-plugins/tpm"
+TMUX_CONF_SOURCE="tmux.conf"
+TMUX_CONF_DEST="$HOME/.tmux.conf"
+VIMRC_SOURCE="vimrc"
+VIMRC_DEST="$HOME/.vimrc"
+BACKUP_VIMRC="$VIMRC_DEST.bk"
 
-# download a Nerd font
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip
-unzip Hack.zip -d Hack
-mkdir -p ~/.local/share/fonts
-mv Hack/*.ttf ~/.local/share/fonts/
-fc-cache -fv > 2&1> /dev/null # update font cache
+# Download and install Nerd Font
+echo "Downloading and installing Nerd Font..."
+wget -q "$NERD_FONT_URL" -O Hack.zip
+unzip -q Hack.zip -d Hack
+mkdir -p "$NERD_FONT_DIR"
+mv Hack/*.ttf "$NERD_FONT_DIR/"
+fc-cache -fv > /dev/null 2>&1 # Update font cache
+rm -rf Hack Hack.zip
 
-# check if ~/.vim/colors exists
-if [ ! -d ~/.vim/colors ]
-then
-  mkdir -p ~/.vim/colors
-fi
-
-# copy the monokai theme
-if [ ! -f ~/.vim/colors/monokai.vim ]
-then
-  git clone https://github.com/ku1ik/vim-monokai.git 
-  cp vim-monokai/colors/monokai.vim ~/.vim/colors/
+# Setup Vim colors
+echo "Setting up Vim color scheme..."
+mkdir -p "$HOME/.vim/colors"
+if [ ! -f "$HOME/.vim/colors/monokai.vim" ]; then
+  git clone "$MONOKAI_REPO"
+  cp vim-monokai/colors/monokai.vim "$HOME/.vim/colors/"
   rm -rf vim-monokai
 fi
 
-# copy the vimrc
-cp ~/.vimrc ~/.vimrc.bk # make a backup first
-cp vimrc ~/.vimrc
+# Backup and replace vimrc
+echo "Backing up and replacing .vimrc..."
+cp "$VIMRC_DEST" "$BACKUP_VIMRC" # Backup existing vimrc
+cp "$VIMRC_SOURCE" "$VIMRC_DEST"
 
-# install curl if you need
-
-# check if vim-plug exists
-if [ ! -f ~/.vim/autoload/plug.vim ] 
-then
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-	      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Install vim-plug if not already installed
+echo "Checking and installing vim-plug..."
+if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
+  curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs "$PLUG_URL"
 fi
 
-# run by sudo if you need, install powerline fonts
-# apt install fonts-powerline
-# apt install python3-powerline
+# Install Vim plugins
+echo "Installing Vim plugins..."
+vim -E -s -u "$VIMRC_DEST" +PlugInstall +qall
 
-# install pluginsll 
-vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
-
-# Tmux
-
-# install tmux plugin manager
-if [ ! -d ~/.tmux/plugins/tpm ] 
-then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# Tmux configuration
+echo "Setting up Tmux configuration..."
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+  git clone "$TMUX_PLUGIN_REPO" "$HOME/.tmux/plugins/tpm"
 fi
+cp "$TMUX_CONF_SOURCE" "$TMUX_CONF_DEST"
 
-cp tmux.conf ~/.tmux.conf
+# Cleanup and prompt
+echo "Tmux configuration updated. Please restart your terminal to apply changes."
 
-rm -rf ~/.config/tmux/tmux.conf
-
-echo "close and reopen terminal to see the changes"

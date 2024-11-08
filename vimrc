@@ -7,17 +7,14 @@ set termencoding=utf-8
 call plug#begin()
 
 Plug 'preservim/nerdtree'
-Plug 'fisadev/FixedTaskList.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-fugitive'
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/vim-indent-guides'
 Plug 'ryanoasis/vim-devicons'
-Plug 'godlygeek/tabular' " :Tabularize /<separator>
 Plug 'tomasiser/vim-code-dark'
 
 call plug#end()
@@ -58,7 +55,6 @@ set omnifunc=syntaxcomplete#Complete
 
 " keybindings
 nmap <F1> :NERDTreeToggle<CR>
-nmap <F2> :TaskList<CR>
 
 " global configs
 let g:airline_theme = 'minimalist'
@@ -100,6 +96,3 @@ augroup autoformat_settings
   autocmd FileType vue AutoFormatBuffer prettier
   autocmd FileType swift AutoFormatBuffer swift-format
 augroup END
-
-" TODO
-" youcompleteme
