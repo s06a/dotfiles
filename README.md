@@ -18,7 +18,7 @@ cd dotfiles
 
 ## **Vim Configuration**
 
-![image](https://github.com/user-attachments/assets/c91a7b0c-c44a-418e-a56f-ca8e83142afe)
+![image](https://github.com/user-attachments/assets/41b8a0ff-87d6-42cb-be8b-c6d099ee9094)
 
 ### **Key Features**
 - Enhanced editing experience with plugins and custom shortcuts.
@@ -34,7 +34,7 @@ cd dotfiles
 | `F1`          | Toggle **NERDTree** file explorer.      |
 | `t` (in NERDTree) | Open files in a new tab.              |
 | `:tabc`       | Close the currently opened tab.         |
-| `h`           | Show hover information for functions.   |
+| `f`           | Show hover information for functions.   |
 | `gd`          | Jump to the definition of a symbol.     |
 | `Ctrl-o`      | Return to the previous location.        |
 
