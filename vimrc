@@ -15,7 +15,7 @@ set incsearch             " Incremental search
 set hlsearch              " Highlight search matches
 set ignorecase            " Case-insensitive searching
 set smartcase             " Case-sensitive if uppercase is used
-" set ruler                 " Show cursor position
+set ruler                 " Show cursor position
 set wildmenu              " Enhanced command-line completion
 set tabstop=4             " Number of spaces for a tab
 set shiftwidth=4          " Indentation width
