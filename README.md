@@ -18,7 +18,7 @@ cd dotfiles
 
 ## **Vim Configuration**
 
-![Vim Screenshot](https://github.com/user-attachments/assets/1ec436f8-17d8-4e7a-8d8a-bc770db8cc83)
+![image](https://github.com/user-attachments/assets/c91a7b0c-c44a-418e-a56f-ca8e83142afe)
 
 ### **Key Features**
 - Enhanced editing experience with plugins and custom shortcuts.
