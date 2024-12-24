@@ -12,13 +12,17 @@ chmod u+x setup.sh
 ```
 
 ## Vim
-![image](https://github.com/s06a/personal-configs/assets/91134347/c7e931a9-c7e3-448a-a095-e39adbec839a)
+![image](https://github.com/user-attachments/assets/1ec436f8-17d8-4e7a-8d8a-bc770db8cc83)
+
 
 ##### shortcuts
 ```
 F1: NERDTree
   - use "t" to open files in a new tab from NERDTree
   - close opened tabs using :tabc
+
+h : show info about function (hover)
+gd: jumpt to definition (ctrl-o to jump back)
 ```
 
 ## Tmux
