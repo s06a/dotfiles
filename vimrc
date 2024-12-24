@@ -1,98 +1,140 @@
-" set encoding
+" ========================
+" Basic Vim Configuration
+" ========================
 set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=utf-8
 
-" plugin manager
-call plug#begin()
+" Editor Settings
+set number                " Show line numbers
+set mouse=a               " Enable mouse support
+set wrap                  " Wrap long lines
+set showcmd               " Show last executed command
+set showmatch             " Highlight matching parentheses
+set incsearch             " Incremental search
+set hlsearch              " Highlight search matches
+set ignorecase            " Case-insensitive searching
+set smartcase             " Case-sensitive if uppercase is used
+" set ruler                 " Show cursor position
+set wildmenu              " Enhanced command-line completion
+set tabstop=4             " Number of spaces for a tab
+set shiftwidth=4          " Indentation width
+set expandtab             " Use spaces instead of tabs
+set autoindent            " Enable automatic indentation
+set smartindent           " Smart indentation
+set laststatus=2          " Always show status line
+set textwidth=80          " Wrap text at 80 characters
+set formatoptions=qrn1    " Automatic formatting options
+set complete-=i           " Disable scanning included files for completion
+set smarttab              " Smart tab behavior
+set clipboard=unnamedplus " Use system clipboard
+set signcolumn=no         " Disable the Sign Column
 
+" ========================
+" Plugin Management
+" ========================
+call plug#begin('~/.vim/plugged')
+
+" File Explorer
 Plug 'preservim/nerdtree'
+
+" Status Line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+" Google Plugins for Formatting
 Plug 'google/vim-maktaba'
 Plug 'google/vim-codefmt'
 Plug 'google/vim-glaive'
-Plug 'Raimondi/delimitMate'
-Plug 'preservim/vim-indent-guides'
-Plug 'ryanoasis/vim-devicons'
-Plug 'tomasiser/vim-code-dark'
+
+" Productivity
+Plug 'Raimondi/delimitMate'               " Auto-pairing of brackets
+Plug 'preservim/vim-indent-guides'        " Indentation guides
+Plug 'ryanoasis/vim-devicons'             " Filetype icons
+Plug 'tomasiser/vim-code-dark'            " Theme: Code Dark
+Plug 'preservim/nerdcommenter'            " For NERDCommenter
+
+" LSP and Completion
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+" Go-specific Tools
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
-" configs for the theme
-syntax enable
-set t_Co=256
-set t_ut=
-colorscheme codedark " monokai
-set background=dark
+" ========================
+" UI and Appearance
+" ========================
+syntax enable             " Enable syntax highlighting
+set t_Co=256              " Support 256 colors
+colorscheme codedark      " Set theme
+set background=dark       " Dark background
 
-" vim configs
-" set number             " enable numbers
-set mouse=a            " enable mouse
-set ls=2               " set line spacing for readability
-set showcmd            " show latest executed command
-set showmatch          " highligh matching pairs (such as brackets)
-set incsearch          " search as you type
-set hlsearch           " highlight all occurances
-set ignorecase         " make searches case-insensitive
-set ruler              " show cursor position at the bottom right
-set wrap               " wrap long lines
-set wildmenu           " enhance the command-line completion menu
-set tabstop=4          " number of spaces for a tab
-set binary             " no new lines at the of the file
-set noeol
-set laststatus=2       " show status line
-set textwidth=80       " limit text width
-set formatoptions=qrn1 " handle text formatting
-set autoindent         " better indentations
-set smartindent
-set complete-=i
-set smarttab
-
-" enable autocompletion (use ctrl+n to see options in vim)
-filetype plugin on
-set omnifunc=syntaxcomplete#Complete
-
-" keybindings
-nmap <F1> :NERDTreeToggle<CR>
-
-" global configs
+" Vim Airline Configuration
 let g:airline_theme = 'minimalist'
-" let g:indent_guides_enable_on_vim_startup = 1
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline_powerline_fonts = 0
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
+" NERDTree Configuration
 let g:NERDTreeShowHidden=1
 
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
+" ========================
+" Keybindings
+" ========================
+nnoremap <F1> :NERDTreeToggle<CR> " Toggle NERDTree
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '| '
+" LSP Keybindings
+nnoremap <silent> gd :LspDefinition<CR>
+nnoremap <silent> gr :LspReferences<CR>
+nnoremap <silent> gi :LspImplementation<CR>
+nnoremap <silent> gt :LspTypeDefinition<CR>
+nnoremap <silent> h :LspHover<CR>
+nnoremap <silent> <leader>rn :LspRename<CR>
+nnoremap <silent> <leader>ca :LspCodeAction<CR>
 
-" configs for auto formats
+" Autocomplete Keybindings
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Toggle comments using Ctrl+/
+function! ToggleComment()
+    let line = getline(".")
+    if line =~ '^\s*//'
+        " Uncomment the line
+        execute "normal! ^xx"
+    else
+        " Comment the line
+        execute "normal! I//"
+    endif
+endfunction
+
+" Map Ctrl+/ for toggling comments
+nnoremap <C-_> :call ToggleComment()<CR>
+vnoremap <C-_> :'<,'>s/^/\/\//<CR>
+
+" ========================
+" Autoformat Settings
+" ========================
 augroup autoformat_settings
-  autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
-  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd!
   autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-  autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
-  autocmd FileType rust AutoFormatBuffer rustfmt
-  autocmd FileType vue AutoFormatBuffer prettier
-  autocmd FileType swift AutoFormatBuffer swift-format
+  autocmd FileType javascript,html,css AutoFormatBuffer prettier
 augroup END
+
+" ========================
+" Language Server Protocol (LSP)
+" ========================
+if executable('gopls')
+  autocmd User lsp_setup call lsp#register_server({
+  \ 'name': 'gopls',
+  \ 'cmd': ['gopls'],
+  \ 'whitelist': ['go'],
+  \ })
+endif
+
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_lsp#enable = 1
