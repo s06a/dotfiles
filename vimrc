@@ -96,13 +96,13 @@ nnoremap <silent> <leader>rn :LspRename<CR>
 nnoremap <silent> <leader>ca :LspCodeAction<CR>
 
 " Autocomplete Keybindings
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <Tab> pumvisible() ? "\\<C-n>" : "\\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\\<C-p>" : "\\<S-Tab>"
 
 " Toggle comments using Ctrl+/
 function! ToggleComment()
     let line = getline(".")
-    if line =~ '^\s*//'
+    if line =~ '^\\s*//'
         " Uncomment the line
         execute "normal! ^xx"
     else
@@ -113,14 +113,14 @@ endfunction
 
 " Map Ctrl+/ for toggling comments
 nnoremap <C-_> :call ToggleComment()<CR>
-vnoremap <C-_> :'<,'>s/^/\/\//<CR>
+vnoremap <C-_> :'<,'>s/^/\\//<CR>
 
 " ========================
 " Autoformat Settings
 " ========================
 augroup autoformat_settings
   autocmd!
-  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType go AutoFormatBuffer goimports
   autocmd FileType python AutoFormatBuffer yapf
   autocmd FileType javascript,html,css AutoFormatBuffer prettier
 augroup END
@@ -130,11 +130,18 @@ augroup END
 " ========================
 if executable('gopls')
   autocmd User lsp_setup call lsp#register_server({
-  \ 'name': 'gopls',
-  \ 'cmd': ['gopls'],
-  \ 'whitelist': ['go'],
-  \ })
+  \\ 'name': 'gopls',
+  \\ 'cmd': ['gopls'],
+  \\ 'whitelist': ['go'],
+  \\ })
 endif
 
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_lsp#enable = 1
+
+" ========================
+" Go Testing Keybindings
+" ========================
+nnoremap <silent> <leader>tt :GoTest<CR>       " Run all tests
+nnoremap <silent> <leader>tf :GoTestFunc<CR>  " Run test for the current function
+nnoremap <silent> <leader>tc :GoCoverage<CR>  " Show test coverage
