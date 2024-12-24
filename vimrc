@@ -99,21 +99,28 @@ nnoremap <silent> <leader>ca :LspCodeAction<CR>
 inoremap <silent><expr> <Tab> pumvisible() ? "\\<C-n>" : "\\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\\<C-p>" : "\\<S-Tab>"
 
-" Toggle comments using Ctrl+/
+" Toggle comments for the current line or selection
 function! ToggleComment()
-    let line = getline(".")
-    if line =~ '^\\s*//'
-        " Uncomment the line
-        execute "normal! ^xx"
+    if mode() ==# 'v'
+        " For visual mode: toggle comment for selected lines
+        '<,'>s/^\(\s*\)\(\/\/\)\@!/\1\/\//e | '<,'>s/^\(\s*\)\/\//\1/e
     else
-        " Comment the line
-        execute "normal! I//"
+        " For normal mode: toggle comment for the current line
+        let line = getline(".")
+        if line =~ '^\s*//'
+            " Uncomment the line
+            execute "normal! ^xx"
+        else
+            " Comment the line
+            execute "normal! I//"
+        endif
     endif
 endfunction
 
 " Map Ctrl+/ for toggling comments
 nnoremap <C-_> :call ToggleComment()<CR>
-vnoremap <C-_> :'<,'>s/^/\\//<CR>
+vnoremap <C-_> :s/^/\/\//<CR>gv
+vnoremap <C-S-_> :s/^\s*\/\///<CR>gv
 
 " ========================
 " Autoformat Settings
