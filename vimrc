@@ -129,11 +129,11 @@ augroup END
 " Language Server Protocol (LSP)
 " ========================
 if executable('gopls')
-  autocmd User lsp_setup call lsp#register_server({
-  \\ 'name': 'gopls',
-  \\ 'cmd': ['gopls'],
-  \\ 'whitelist': ['go'],
-  \\ })
+  autocmd FileType go call lsp#register_server({
+  \ 'name': 'gopls',
+  \ 'cmd': ['gopls'],
+  \ 'whitelist': ['go'],
+  \ })
 endif
 
 let g:asyncomplete_auto_popup = 1
