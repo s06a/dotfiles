@@ -81,6 +81,10 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 " NERDTree Configuration
 let g:NERDTreeShowHidden=1
 
+" File-type specific overrides
+autocmd FileType * setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd FileType make setlocal noexpandtab
+
 " ========================
 " Keybindings
 " ========================
