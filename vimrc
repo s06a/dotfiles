@@ -17,8 +17,8 @@ set ignorecase            " Case-insensitive searching
 set smartcase             " Case-sensitive if uppercase is used
 set ruler                 " Show cursor position
 set wildmenu              " Enhanced command-line completion
-set tabstop=4             " Number of spaces for a tab
-set shiftwidth=4          " Indentation width
+set tabstop=2             " Number of spaces for a tab
+set shiftwidth=2          " Indentation width
 set expandtab             " Use spaces instead of tabs
 set autoindent            " Enable automatic indentation
 set smartindent           " Smart indentation
@@ -91,13 +91,13 @@ nnoremap <silent> gd :LspDefinition<CR>
 nnoremap <silent> gr :LspReferences<CR>
 nnoremap <silent> gi :LspImplementation<CR>
 nnoremap <silent> gt :LspTypeDefinition<CR>
-nnoremap <silent> h :LspHover<CR>
+nnoremap <silent> f :LspHover<CR>
 nnoremap <silent> <leader>rn :LspRename<CR>
 nnoremap <silent> <leader>ca :LspCodeAction<CR>
 
 " Autocomplete Keybindings
-inoremap <silent><expr> <Tab> pumvisible() ? "\\<C-n>" : "\\<Tab>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\\<C-p>" : "\\<S-Tab>"
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Toggle comments for the current line or selection
 function! ToggleComment()
