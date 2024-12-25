@@ -9,9 +9,9 @@ NERD_FONT_URL="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/
 NERD_FONT_DIR="$HOME/.local/share/fonts"
 PLUG_URL="https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 TMUX_PLUGIN_REPO="https://github.com/tmux-plugins/tpm"
-TMUX_CONF_SOURCE="tmux.conf"
+TMUX_CONF_SOURCE="tmux/.tmux.conf"
 TMUX_CONF_DEST="$HOME/.tmux.conf"
-VIMRC_SOURCE="vimrc"
+VIMRC_SOURCE="vim/.vimrc"
 VIMRC_DEST="$HOME/.vimrc"
 BACKUP_VIMRC="$VIMRC_DEST.bk"
 BACKUP_TMUX="$TMUX_CONF_DEST.bk"
@@ -89,10 +89,10 @@ fi
 # Install Go Dependencies
 echo "Installing Go dependencies..."
 GO_PACKAGES=(
-  "golang.org/x/tools/gopls@latest"                    # Go Language Server
-  "golang.org/x/tools/cmd/goimports@latest"            # Code formatting and import sorting
+  "golang.org/x/tools/gopls@latest"                            # Go Language Server
+  "golang.org/x/tools/cmd/goimports@latest"                    # Code formatting and import sorting
   "github.com/golangci/golangci-lint/cmd/golangci-lint@latest" # Linter
-  "github.com/go-delve/delve/cmd/dlv@latest"           # Debugger
+  "github.com/go-delve/delve/cmd/dlv@latest"                   # Debugger
 )
 
 for pkg in "${GO_PACKAGES[@]}"; do
