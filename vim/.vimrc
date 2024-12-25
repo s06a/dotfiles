@@ -105,26 +105,48 @@ inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Toggle comments for the current line or selection
 function! ToggleComment()
+    " Detect the file type
+    let filetype = &filetype
+    let comment_char = "//" " Default to // for C-like languages
+    if filetype == 'python' || filetype == 'sh' || filetype == 'tmux'
+        let comment_char = "#"
+    elseif filetype == 'vim'
+        let comment_char = '"'
+    elseif filetype == 'rust' || filetype == 'cpp' || filetype == 'c' || filetype == 'go'
+        let comment_char = "//"
+    endif
+
     if mode() ==# 'v'
-        " For visual mode: toggle comment for selected lines
-        '<,'>s/^\(\s*\)\(\/\/\)\@!/\1\/\//e | '<,'>s/^\(\s*\)\/\//\1/e
+        " Visual mode: toggle comment for selected lines
+        execute "normal! '<"
+        let first_line = line("'<")
+        let last_line = line("'>")
+        for line_num in range(first_line, last_line)
+            let line = getline(line_num)
+            if line =~ '^\s*' . comment_char . '\s*'
+                " Uncomment the line
+                call setline(line_num, substitute(line, '^\(\s*\)' . comment_char . '\s*', '\1', ''))
+            else
+                " Comment the line
+                call setline(line_num, substitute(line, '^\(\s*\)', '\1' . comment_char . ' ', ''))
+            endif
+        endfor
     else
-        " For normal mode: toggle comment for the current line
+        " Normal mode: toggle comment for the current line
         let line = getline(".")
-        if line =~ '^\s*//'
+        if line =~ '^\s*' . comment_char . '\s*'
             " Uncomment the line
-            execute "normal! ^xx"
+            call setline(line("."), substitute(line, '^\(\s*\)' . comment_char . '\s*', '\1', ''))
         else
             " Comment the line
-            execute "normal! I//"
+            call setline(line("."), substitute(line, '^\(\s*\)', '\1' . comment_char . ' ', ''))
         endif
     endif
 endfunction
 
 " Map Ctrl+/ for toggling comments
 nnoremap <C-_> :call ToggleComment()<CR>
-vnoremap <C-_> :s/^/\/\//<CR>gv
-vnoremap <C-S-_> :s/^\s*\/\///<CR>gv
+vnoremap <C-_> :<C-U>call ToggleComment()<CR>
 
 " ========================
 " Autoformat Settings
