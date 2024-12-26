@@ -16,6 +16,23 @@ VIMRC_DEST="$HOME/.vimrc"
 NVIM_CONFIG_DIR="$HOME/.config/nvim"
 
 # Functions
+check_dependencies() {
+  echo "Checking system dependencies..."
+
+  DEPENDENCIES=(unzip curl wget git gcc make tar)
+
+  for dep in "${DEPENDENCIES[@]}"; do
+    if ! command -v $dep >/dev/null 2>&1; then
+      echo "$dep is not installed. Installing $dep..."
+      sudo apt update && sudo apt install -y $dep
+    else
+      echo "$dep is already installed."
+    fi
+  done
+
+  echo "All dependencies are installed."
+}
+
 check_and_install_vim() {
   if command -v vim >/dev/null 2>&1; then
     echo "Vim is installed: $(vim --version | head -n 1)"
@@ -86,9 +103,34 @@ setup_vim() {
 
   echo "Setting up Vim..."
   if [ -f "$VIMRC_DEST" ]; then
-    cp "$VIMRC_DEST" "$VIMRC_DEST.bk"
-    echo "Existing .vimrc backed up to $VIMRC_DEST.bk."
+    echo -e "\nAn existing Vim configuration (.vimrc) was found."
+    echo -e "\nChoose an option:"
+    echo "1) Back up and continue with the setup."
+    echo "2) Remove the current configuration and do a fresh setup."
+    echo "3) Keep the existing configuration and skip setup."
+    read -rp "Enter your choice (1/2/3): " vim_choice
+
+    case $vim_choice in
+      1)
+        BACKUP_VIMRC="$VIMRC_DEST.bk.$(date +%s)"
+        echo "Backing up existing .vimrc to $BACKUP_VIMRC..."
+        mv "$VIMRC_DEST" "$BACKUP_VIMRC"
+        ;;
+      2)
+        echo "Removing existing .vimrc for a fresh setup..."
+        rm -f "$VIMRC_DEST"
+        ;;
+      3)
+        echo "Keeping existing Vim configuration and skipping setup."
+        return
+        ;;
+      *)
+        echo "Invalid choice. Exiting setup."
+        return
+        ;;
+    esac
   fi
+
   if ! cmp -s "$VIMRC_SOURCE" "$VIMRC_DEST"; then
     cp "$VIMRC_SOURCE" "$VIMRC_DEST"
     echo ".vimrc updated successfully."
@@ -117,9 +159,34 @@ setup_tmux() {
 
   echo "Setting up Tmux..."
   if [ -f "$TMUX_CONF_DEST" ]; then
-    cp "$TMUX_CONF_DEST" "$TMUX_CONF_DEST.bk"
-    echo "Existing .tmux.conf backed up to $TMUX_CONF_DEST.bk."
+    echo -e "\nAn existing Tmux configuration (.tmux.conf) was found."
+    echo -e "\nChoose an option:"
+    echo "1) Back up and continue with the setup."
+    echo "2) Remove the current configuration and do a fresh setup."
+    echo "3) Keep the existing configuration and skip setup."
+    read -rp "Enter your choice (1/2/3): " tmux_choice
+
+    case $tmux_choice in
+      1)
+        BACKUP_TMUX="$TMUX_CONF_DEST.bk.$(date +%s)"
+        echo "Backing up existing .tmux.conf to $BACKUP_TMUX..."
+        mv "$TMUX_CONF_DEST" "$BACKUP_TMUX"
+        ;;
+      2)
+        echo "Removing existing .tmux.conf for a fresh setup..."
+        rm -f "$TMUX_CONF_DEST"
+        ;;
+      3)
+        echo "Keeping existing Tmux configuration and skipping setup."
+        return
+        ;;
+      *)
+        echo "Invalid choice. Exiting setup."
+        return
+        ;;
+    esac
   fi
+
   if ! cmp -s "$TMUX_CONF_SOURCE" "$TMUX_CONF_DEST"; then
     cp "$TMUX_CONF_SOURCE" "$TMUX_CONF_DEST"
     echo ".tmux.conf updated successfully."
@@ -144,17 +211,40 @@ setup_neovim() {
   echo "Setting up Neovim..."
   
   if [ -d "$NVIM_CONFIG_DIR" ]; then
-    BACKUP_NVIM="$NVIM_CONFIG_DIR.bk.$(date +%s)"
-    echo "Backing up existing Neovim configuration to $BACKUP_NVIM..."
-    mv "$NVIM_CONFIG_DIR" "$BACKUP_NVIM"
+    echo -e "\nAn existing Neovim configuration was found."
+    echo -e "\nChoose an option:"
+    echo "1) Back up and continue with the setup."
+    echo "2) Remove everything related to the current configuration and do a fresh install."
+    echo "3) Keep the existing configuration and skip setup."
+    read -rp "Enter your choice (1/2/3): " nvim_choice
+
+    case $nvim_choice in
+      1)
+        BACKUP_NVIM="$NVIM_CONFIG_DIR.bk.$(date +%s)"
+        echo "Backing up existing Neovim configuration to $BACKUP_NVIM..."
+        mv "$NVIM_CONFIG_DIR" "$BACKUP_NVIM"
+        ;;
+      2)
+        echo "Removing existing Neovim configuration for a fresh install..."
+        rm -rf "$NVIM_CONFIG_DIR"
+        ;;
+      3)
+        echo "Keeping existing Neovim configuration and skipping setup."
+        return
+        ;;
+      *)
+        echo "Invalid choice. Exiting setup."
+        return
+        ;;
+    esac
   fi
 
   git clone https://github.com/LazyVim/starter "$NVIM_CONFIG_DIR"
   rm -rf "$NVIM_CONFIG_DIR/.git"
 
-  echo "Configuring Neovim LSP for Go..."
+  echo "Configuring Neovim LSP for Go and Lua..."
   mkdir -p "$NVIM_CONFIG_DIR/lua/plugins"
-  cat << EOF > "$NVIM_CONFIG_DIR/lua/plugins/go.lua"
+  cat << EOF > "$NVIM_CONFIG_DIR/lua/plugins/lsp.lua"
 return {
   {
     "neovim/nvim-lspconfig",
@@ -165,6 +255,25 @@ return {
             gopls = {
               analyses = { unusedparams = true },
               staticcheck = true,
+            },
+          },
+        },
+        lua_ls = {
+          settings = {
+            Lua = {
+              runtime = {
+                version = "LuaJIT",
+              },
+              diagnostics = {
+                globals = { "vim" },
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+              },
+              telemetry = {
+                enable = false,
+              },
             },
           },
         },
@@ -182,13 +291,18 @@ EOF
   echo "Neovim plugins synced."
 
   echo "Installing Mason packages..."
-  nvim --headless -c "MasonInstall shfmt stylua" -c "qa"
+  nvim --headless -c "lua require('mason').setup()" -c "MasonInstall shfmt stylua lua-language-server" -c "qa"
   echo "Mason packages installed."
+
+  echo "Updating Neovim LazyVim packages..."
+  nvim --headless -c "Lazy update" -c "qa"
+  echo "Neovim LazyVim packages updated."
 
   echo "Neovim setup complete."
 }
 
 install_all() {
+  check_dependencies
   install_nerd_font
   setup_vim
   setup_tmux
@@ -198,9 +312,13 @@ install_all() {
 # Main Menu
 while true; do
   echo -e "\nChoose a setup option:"
-  options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
+  options=("Check Dependencies" "Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
   select opt in "${options[@]}"; do
     case $opt in
+      "Check Dependencies")
+        check_dependencies
+        break
+        ;;
       "Install Nerd Font")
         install_nerd_font
         break
