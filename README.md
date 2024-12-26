@@ -58,6 +58,5 @@ cd dotfiles
 |----------------------|---------------------------------------------|
 | `` ` `` (Backtick)   | Tmux prefix key.                           |
 | `Alt+Arrow`          | Navigate between panes.                    |
-| `prefix + |`         | Split pane horizontally.                   |
 | `prefix + -`         | Split pane vertically.                     |
 | `Mouse Scroll`       | Scroll output (hold `Shift` to copy).       |
