@@ -192,31 +192,38 @@ install_all() {
 }
 
 # Main Menu
-echo "Choose a setup option:"
-options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
-select opt in "${options[@]}"; do
-  case $opt in
-    "Install Nerd Font")
-      install_nerd_font
-      ;;
-    "Setup Vim")
-      setup_vim
-      ;;
-    "Setup Tmux")
-      setup_tmux
-      ;;
-    "Setup Neovim")
-      setup_neovim
-      ;;
-    "Install All")
-      install_all
-      ;;
-    "Exit")
-      echo "Exiting setup."
-      break
-      ;;
-    *)
-      echo "Invalid option. Please try again."
-      ;;
-  esac
+while true; do
+  echo "Choose a setup option:"
+  options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
+  select opt in "${options[@]}"; do
+    case $opt in
+      "Install Nerd Font")
+        install_nerd_font
+        break # Exit select loop to redisplay the menu
+        ;;
+      "Setup Vim")
+        setup_vim
+        break # Exit select loop to redisplay the menu
+        ;;
+      "Setup Tmux")
+        setup_tmux
+        break # Exit select loop to redisplay the menu
+        ;;
+      "Setup Neovim")
+        setup_neovim
+        break # Exit select loop to redisplay the menu
+        ;;
+      "Install All")
+        install_all
+        break # Exit select loop to redisplay the menu
+        ;;
+      "Exit")
+        echo "Exiting setup."
+        exit 0
+        ;;
+      *)
+        echo "Invalid option. Please try again."
+        ;;
+    esac
+  done
 done
