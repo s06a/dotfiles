@@ -171,11 +171,18 @@ EOF
 
   echo "Installing Go tools..."
   install_go_tools
-  
+
   echo "Installing Neovim plugins..."
   nvim --headless "+Lazy sync" +qa
+  echo "Neovim plugins synced."
+
+  echo "Installing Mason packages..."
+  nvim --headless -c "MasonInstall shfmt stylua" -c "qa"
+  echo "Mason packages installed."
+
   echo "Neovim setup complete."
 }
+
 
 install_all() {
   install_nerd_font
