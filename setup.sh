@@ -13,9 +13,7 @@ TMUX_CONF_SOURCE="tmux/.tmux.conf"
 TMUX_CONF_DEST="$HOME/.tmux.conf"
 VIMRC_SOURCE="vim/.vimrc"
 VIMRC_DEST="$HOME/.vimrc"
-BACKUP_VIMRC="$VIMRC_DEST.bk"
-BACKUP_TMUX="$TMUX_CONF_DEST.bk"
-NVIM_LUA_DIR="$HOME/.config/nvim/lua/plugins"
+NVIM_CONFIG_DIR="$HOME/.config/nvim"
 
 # Functions
 check_and_install_vim() {
@@ -88,8 +86,8 @@ setup_vim() {
 
   echo "Setting up Vim..."
   if [ -f "$VIMRC_DEST" ]; then
-    cp "$VIMRC_DEST" "$BACKUP_VIMRC"
-    echo "Existing .vimrc backed up to $BACKUP_VIMRC."
+    cp "$VIMRC_DEST" "$VIMRC_DEST.bk"
+    echo "Existing .vimrc backed up to $VIMRC_DEST.bk."
   fi
   if ! cmp -s "$VIMRC_SOURCE" "$VIMRC_DEST"; then
     cp "$VIMRC_SOURCE" "$VIMRC_DEST"
@@ -119,8 +117,8 @@ setup_tmux() {
 
   echo "Setting up Tmux..."
   if [ -f "$TMUX_CONF_DEST" ]; then
-    cp "$TMUX_CONF_DEST" "$BACKUP_TMUX"
-    echo "Existing .tmux.conf backed up to $BACKUP_TMUX."
+    cp "$TMUX_CONF_DEST" "$TMUX_CONF_DEST.bk"
+    echo "Existing .tmux.conf backed up to $TMUX_CONF_DEST.bk."
   fi
   if ! cmp -s "$TMUX_CONF_SOURCE" "$TMUX_CONF_DEST"; then
     cp "$TMUX_CONF_SOURCE" "$TMUX_CONF_DEST"
@@ -144,12 +142,19 @@ setup_neovim() {
   check_and_install_neovim
 
   echo "Setting up Neovim..."
-  git clone https://github.com/LazyVim/starter ~/.config/nvim
-  rm -rf ~/.config/nvim/.git
+  
+  if [ -d "$NVIM_CONFIG_DIR" ]; then
+    BACKUP_NVIM="$NVIM_CONFIG_DIR.bk.$(date +%s)"
+    echo "Backing up existing Neovim configuration to $BACKUP_NVIM..."
+    mv "$NVIM_CONFIG_DIR" "$BACKUP_NVIM"
+  fi
+
+  git clone https://github.com/LazyVim/starter "$NVIM_CONFIG_DIR"
+  rm -rf "$NVIM_CONFIG_DIR/.git"
 
   echo "Configuring Neovim LSP for Go..."
-  mkdir -p "$NVIM_LUA_DIR"
-  cat << EOF > "$NVIM_LUA_DIR/go.lua"
+  mkdir -p "$NVIM_CONFIG_DIR/lua/plugins"
+  cat << EOF > "$NVIM_CONFIG_DIR/lua/plugins/go.lua"
 return {
   {
     "neovim/nvim-lspconfig",
@@ -183,7 +188,6 @@ EOF
   echo "Neovim setup complete."
 }
 
-
 install_all() {
   install_nerd_font
   setup_vim
@@ -193,30 +197,29 @@ install_all() {
 
 # Main Menu
 while true; do
-  echo
-  echo "Choose a setup option:"
+  echo -e "\nChoose a setup option:"
   options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
   select opt in "${options[@]}"; do
     case $opt in
       "Install Nerd Font")
         install_nerd_font
-        break # Exit select loop to redisplay the menu
+        break
         ;;
       "Setup Vim")
         setup_vim
-        break # Exit select loop to redisplay the menu
+        break
         ;;
       "Setup Tmux")
         setup_tmux
-        break # Exit select loop to redisplay the menu
+        break
         ;;
       "Setup Neovim")
         setup_neovim
-        break # Exit select loop to redisplay the menu
+        break
         ;;
       "Install All")
         install_all
-        break # Exit select loop to redisplay the menu
+        break
         ;;
       "Exit")
         echo "Exiting setup."
