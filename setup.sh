@@ -19,7 +19,7 @@ NVIM_CONFIG_DIR="$HOME/.config/nvim"
 check_dependencies() {
   echo "Checking system dependencies..."
 
-  DEPENDENCIES=(unzip curl wget git gcc make tar)
+  DEPENDENCIES=(unzip curl wget git gcc make tar fzf)
 
   for dep in "${DEPENDENCIES[@]}"; do
     if ! command -v $dep >/dev/null 2>&1; then
