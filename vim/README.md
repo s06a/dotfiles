@@ -1,0 +1,1 @@
+I’ve always been a loyal Vim user, drawn to its simplicity, speed, and the unmatched power it offers for text editing. However, as my projects became larger and more complex, I found myself needing tools that could handle modern development demands—especially robust support for Language Server Protocol (LSP). After much consideration, I made the switch to Neovim.
