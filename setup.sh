@@ -18,14 +18,31 @@ BACKUP_TMUX="$TMUX_CONF_DEST.bk"
 NVIM_LUA_DIR="$HOME/.config/nvim/lua/plugins"
 
 # Functions
-check_dependencies() {
-  echo "Checking dependencies..."
-  for cmd in wget curl unzip git go; do
-    if ! command -v $cmd >/dev/null 2>&1; then
-      echo "Error: $cmd is not installed. Please install it and re-run this script."
-      exit 1
-    fi
-  done
+check_and_install_vim() {
+  if command -v vim >/dev/null 2>&1; then
+    echo "Vim is installed: $(vim --version | head -n 1)"
+  else
+    echo "Vim is not installed. Installing Vim..."
+    sudo apt update && sudo apt install vim -y
+  fi
+}
+
+check_and_install_tmux() {
+  if command -v tmux >/dev/null 2>&1; then
+    echo "Tmux is installed: $(tmux -V)"
+  else
+    echo "Tmux is not installed. Installing Tmux..."
+    sudo apt update && sudo apt install tmux -y
+  fi
+}
+
+check_and_install_neovim() {
+  if command -v nvim >/dev/null 2>&1; then
+    echo "Neovim is installed: $(nvim --version | head -n 1)"
+  else
+    echo "Neovim is not installed. Installing Neovim..."
+    sudo apt update && sudo apt install neovim -y
+  fi
 }
 
 install_nerd_font() {
@@ -67,6 +84,8 @@ install_go_tools() {
 }
 
 setup_vim() {
+  check_and_install_vim
+
   echo "Setting up Vim..."
   if [ -f "$VIMRC_DEST" ]; then
     cp "$VIMRC_DEST" "$BACKUP_VIMRC"
@@ -86,16 +105,18 @@ setup_vim() {
   else
     echo "vim-plug is already installed."
   fi
+  
+  echo "Installing Go tools..."
+  install_go_tools
 
   echo "Installing Vim plugins..."
   vim -E -s -u "$VIMRC_DEST" +PlugInstall +qall
   echo "Vim setup complete."
-
-  echo "Installing Go tools..."
-  install_go_tools
 }
 
 setup_tmux() {
+  check_and_install_tmux
+
   echo "Setting up Tmux..."
   if [ -f "$TMUX_CONF_DEST" ]; then
     cp "$TMUX_CONF_DEST" "$BACKUP_TMUX"
@@ -120,6 +141,8 @@ setup_tmux() {
 }
 
 setup_neovim() {
+  check_and_install_neovim
+
   echo "Setting up Neovim..."
   git clone https://github.com/LazyVim/starter ~/.config/nvim
   rm -rf ~/.config/nvim/.git
@@ -146,34 +169,40 @@ return {
 }
 EOF
 
+  echo "Installing Go tools..."
+  install_go_tools
+  
   echo "Installing Neovim plugins..."
   nvim --headless "+Lazy sync" +qa
   echo "Neovim setup complete."
+}
 
-  echo "Installing Go tools..."
-  install_go_tools
+install_all() {
+  install_nerd_font
+  setup_vim
+  setup_tmux
+  setup_neovim
 }
 
 # Main Menu
 echo "Choose a setup option:"
-options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Exit")
+options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
 select opt in "${options[@]}"; do
   case $opt in
     "Install Nerd Font")
-      check_dependencies
       install_nerd_font
       ;;
     "Setup Vim")
-      check_dependencies
       setup_vim
       ;;
     "Setup Tmux")
-      check_dependencies
       setup_tmux
       ;;
     "Setup Neovim")
-      check_dependencies
       setup_neovim
+      ;;
+    "Install All")
+      install_all
       ;;
     "Exit")
       echo "Exiting setup."
