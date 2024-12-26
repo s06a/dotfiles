@@ -1,6 +1,6 @@
 # **Dotfiles Configuration**
 
-A personal setup for Vim, NeoVim, and Tmux tailored for efficient development.
+A personal setup for Vim, Neovim, and Tmux tailored for efficient development.
 
 ## **Installation**
 
@@ -12,7 +12,7 @@ cd dotfiles
 ./setup.sh
 ```
 
-## **NeoVim Configuration**
+## **Neovim Configuration**
 
 ![image](https://github.com/user-attachments/assets/75b917d4-350e-4311-a737-2bfe288e1f49)
 
