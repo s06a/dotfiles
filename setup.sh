@@ -193,6 +193,7 @@ install_all() {
 
 # Main Menu
 while true; do
+  echo
   echo "Choose a setup option:"
   options=("Install Nerd Font" "Setup Vim" "Setup Tmux" "Setup Neovim" "Install All" "Exit")
   select opt in "${options[@]}"; do
