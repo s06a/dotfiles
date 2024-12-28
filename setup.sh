@@ -207,7 +207,6 @@ setup_tmux() {
 
 setup_neovim() {
   check_and_install_neovim
-
   echo "Setting up Neovim..."
   
   if [ -d "$NVIM_CONFIG_DIR" ]; then
@@ -242,8 +241,10 @@ setup_neovim() {
   git clone https://github.com/LazyVim/starter "$NVIM_CONFIG_DIR"
   rm -rf "$NVIM_CONFIG_DIR/.git"
 
-  echo "Configuring Neovim LSP for Go and Lua..."
+  echo "Configuring Neovim plugins and settings..."
   mkdir -p "$NVIM_CONFIG_DIR/lua/plugins"
+
+  # Configure LSP for Go and Lua
   cat << EOF > "$NVIM_CONFIG_DIR/lua/plugins/lsp.lua"
 return {
   {
@@ -261,23 +262,29 @@ return {
         lua_ls = {
           settings = {
             Lua = {
-              runtime = {
-                version = "LuaJIT",
-              },
-              diagnostics = {
-                globals = { "vim" },
-              },
+              runtime = { version = "LuaJIT" },
+              diagnostics = { globals = { "vim" } },
               workspace = {
                 library = vim.api.nvim_get_runtime_file("", true),
                 checkThirdParty = false,
               },
-              telemetry = {
-                enable = false,
-              },
+              telemetry = { enable = false },
             },
           },
         },
       },
+    },
+  },
+}
+EOF
+
+  # Configure neo-tree settings
+  cat << EOF > "$NVIM_CONFIG_DIR/lua/plugins/neo-tree.lua"
+require('neo-tree').setup {
+  filesystem = {
+    filtered_items = {
+      hide_dotfiles = false,
+      hide_gitignored = false,
     },
   },
 }
