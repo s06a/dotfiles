@@ -14,7 +14,7 @@ cd dotfiles
 
 ## **Neovim Configuration**
 
-![image](https://github.com/user-attachments/assets/75b917d4-350e-4311-a737-2bfe288e1f49)
+![image](https://github.com/user-attachments/assets/de05ce6c-5977-4048-9ceb-e3e9da07a9d7)
 
 ### **Key Features**
 - Powered by **LazyVim** for a modern and feature-rich experience.
